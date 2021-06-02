@@ -11,7 +11,6 @@ import storageHelper from '../../utils/api/storage.js'
 import EditModal from '../components/edit-modal.js'
 import AddToPlaylistModal from '../components/add-to-playlist-modal.js'
 import pageRender from '../../index.js'
-import { DEFAULT_IMAGE } from '../../utils/genres.js'
 
 const Author = () => {
     const routeData = {}
@@ -41,9 +40,12 @@ const Author = () => {
     const editPage = () => {
         EditModal(pageInfo || {}, async (image, data) => {    
             const imageUrl = await storageHelper.uploadImage(image)
-            data.imageUrl = imageUrl || data.imageUrl
-            await userAPI.updateUserPage(routeData.uid, data)
             
+            if (imageUrl) {
+                data.imageUrl = imageUrl
+            }
+
+            await userAPI.updateUserPage(routeData.uid, data)
             await pageRender.forceUpdate()
 
             return true
@@ -107,10 +109,16 @@ const Author = () => {
             addToPlaylist: user?.uid && addToPlaylist
         })
         
+        const openModalFunction = () => {
+            if (userId === id && pageInfo) {
+                return openModal
+            }
+        }
+
         const view = `
             <section class="liked-container">
                 ${await AuthorHeader.render(pageInfo?.name, pageInfo?.imageUrl)}
-                ${await PlaylistControls(click, openModal, editPage).render(controlButtons)}
+                ${await PlaylistControls(click, openModalFunction(), userId === id && editPage).render(controlButtons)}
                 ${await recentTracksList.render()}
                 ${tiles}
             </section>

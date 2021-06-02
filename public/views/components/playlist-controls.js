@@ -52,9 +52,12 @@ const PlaylistControls = (onPlayClick, onButtonClick, addTrack) => {
     const afterRender = () => {
         const changeButton = document.getElementById('change-button')
         
-        if (changeButton) {
+        if (changeButton && onButtonClick) {
             DomObserver.removeCallback(observerId)
             changeButton.addEventListener('click', onButtonClick)
+        }
+
+        if (addTrack) {
             document.getElementById('add-button')?.addEventListener('click', addTrack)
         }
     }

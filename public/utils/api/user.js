@@ -1,3 +1,5 @@
+import { DEFAULT_IMAGE } from '../genres.js'
+
 export const updateUsersTracks = async (data, trackId) => {
     const dbRef = firebase.database().ref('users')
     await dbRef.once("value", users => {
@@ -31,6 +33,10 @@ export const updateUserPage = async (userId, data) => {
     data.id = idLowerCase
     data.type = 'author'
     
+    if (!data.imageUrl) {
+        data.imageUrl = DEFAULT_IMAGE
+    }
+
     const dbRef = firebase.database().ref(`users/${idLowerCase}`)
     await dbRef.once("value", (snapshot) => {
         if (!snapshot.hasChild('info')) {
