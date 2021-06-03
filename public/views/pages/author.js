@@ -18,12 +18,8 @@ const Author = () => {
     let pageInfo
     let recentTracksList
 
-    const click = () => {
-
-    }
-
     const createUserAlbum = async (image, data) => {
-        const imageUrl = await storageHelper.uploadImage(image)
+        const imageUrl = await storageHelper.uploadFile(image)
         data.imageUrl = imageUrl || data.imageUrl || ''
 
         albumAPI.createAlbum(routeData.uid, {...data, authorName: pageInfo.name})
@@ -39,7 +35,7 @@ const Author = () => {
 
     const editPage = () => {
         EditModal(pageInfo || {}, async (image, data) => {    
-            const imageUrl = await storageHelper.uploadImage(image)
+            const imageUrl = await storageHelper.uploadFile(image)
             
             if (imageUrl) {
                 data.imageUrl = imageUrl
@@ -118,7 +114,7 @@ const Author = () => {
         const view = `
             <section class="liked-container">
                 ${await AuthorHeader.render(pageInfo?.name, pageInfo?.imageUrl)}
-                ${await PlaylistControls(click, openModalFunction(), userId === id && editPage).render(controlButtons)}
+                ${await PlaylistControls(openModalFunction(), userId === id && editPage).render(controlButtons)}
                 ${await recentTracksList.render()}
                 ${tiles}
             </section>
