@@ -28,7 +28,8 @@ const EditModal = ({
             const color = document.getElementById('modal-color-piker').value
             const data = {
                 name,
-                color
+                color,
+                imageUrl
             }
 
             if (description) {

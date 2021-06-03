@@ -1,7 +1,7 @@
 import Modal from './modal.js'
 import { GENRES, DEFAULT_IMAGE } from '../../utils/genres.js'
 
-const AddTrackModal = (onSave, {name = 'new track', genre = 'rock', id, lyrics = ''} = {}) => {
+const AddTrackModal = (onSave, {name = 'new track', genre = 'rock', id, lyrics = '', trackUrl = ''} = {}) => {
     const setModalListener = (modalContainer) => {
         let trackFile
         
@@ -30,6 +30,7 @@ const AddTrackModal = (onSave, {name = 'new track', genre = 'rock', id, lyrics =
                 name,
                 genre,
                 lyrics,
+                trackUrl,
             }
 
             if (id) {
